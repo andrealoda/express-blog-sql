@@ -7,7 +7,7 @@ const credentials = {
     database: process.env.DB_NAME
 };
 
-console.log(credentials);
+// console.log(credentials);
 
 const connection = mysql.createConnection(credentials);
 

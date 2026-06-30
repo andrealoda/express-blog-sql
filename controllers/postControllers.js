@@ -29,14 +29,22 @@ const index = (req, res) => {
 
 // SHOW DI UN SINGOLO POST
 const show = (req, res) => {
-    const postId = parseInt(req.params.id);
-    const thisPost = posts.find(post => post.id === postId);
+    const id = req.params.id;
 
-    if (!thisPost) {
-        return res.status(404).json({ error: 'Post not found' });
-    }
+    const sql = 'SELECT * FROM posts WHERE id = ?';
+    connection.query(sql,  [id], (err, results) => {
+        if (err) return res.status(500).json({ error: 'database query failed' });
+        if (results.length === 0) return res.status(404).json({ error: 'post not found '});
+        res.json(results[0]);
+    });
+    // const postId = parseInt(req.params.id);
+    // const thisPost = posts.find(post => post.id === postId);
 
-    res.json(thisPost);
+    // if (!thisPost) {
+    //     return res.status(404).json({ error: 'Post not found' });
+    // }
+
+    // res.json(thisPost);
 };
 
 // STORE DI UN NUOVO POST
