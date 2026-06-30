@@ -8,9 +8,9 @@ const index = (req, res) => {
     connection.query(sql, (err, results) => {
         console.log(err);
 
-        if(err) {
+        if (err) {
             console.error('error executing query:', err);
-            return res.status(500).json({ error: true, message: 'internal server error '});
+            return res.status(500).json({ error: true, message: 'internal server error ' });
         }
         console.log(results);
         res.json(results);
@@ -82,18 +82,23 @@ const patch = (req, res) => {
 
 // DELETE DI UN POST ESISTENTE
 const destroy = (req, res) => {
-    const postId = parseInt(req.params.id);
-    const thisPost = posts.find(post => post.id === postId);
+    const { id } = req.params;
 
-    if (!thisPost) {
-        return res.status(404).json({ error: 'Post not found' });
-    }
+    connection.query('DELETE FROM posts WHERE id = ?', [id], (err) => {
+        if (err) return res.status(500).json({ error:'failed to delete post' });
+        res.sendStatus(204)
+    });
+    // const postId = parseInt(req.params.id);
+    // const thisPost = posts.find(post => post.id === postId);
 
-    const index = posts.indexOf(thisPost);
-    posts.splice(index, 1);
-    res.status(200).json({ message: `Post numero ${postId} eliminato con successo` });
-    console.log(posts);
+    // if (!thisPost) {
+    //     return res.status(404).json({ error: 'Post not found' });
+    // }
 
+    // const index = posts.indexOf(thisPost);
+    // posts.splice(index, 1);
+    // res.status(200).json({ message: `Post numero ${postId} eliminato con successo` });
+    // console.log(posts);
 };
 
 
