@@ -13,7 +13,7 @@ const index = (req, res) => {
             return res.status(500).json({ error: true, message: 'internal server error '});
         }
         console.log(results);
-        req.json(results);
+        res.json(results);
     })
     // const { tag } = req.query;
 
