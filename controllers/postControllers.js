@@ -1,16 +1,29 @@
 const posts = require('../data/posts');
+const connection = require('../database/connection')
 
 // INDEX DEI POST
 const index = (req, res) => {
-    const { tag } = req.query;
+    const sql = 'SELECT * FROM posts';
 
-    if (tag) {
-        // filter the posts that contain the tag
-        const filteredPosts = posts.filter(post => post.tags.includes(tag));
-        return res.json(filteredPosts);
-    }
+    connection.query(sql, (err, results) => {
+        console.log(err);
 
-    return res.json(posts);
+        if(err) {
+            console.error('error executing query:', err);
+            return res.status(500).json({ error: true, message: 'internal server error '});
+        }
+        console.log(results);
+        req.json(results);
+    })
+    // const { tag } = req.query;
+
+    // if (tag) {
+    //     // filter the posts that contain the tag
+    //     const filteredPosts = posts.filter(post => post.tags.includes(tag));
+    //     return res.json(filteredPosts);
+    // }
+
+    // return res.json(posts);
 }
 
 

@@ -4,6 +4,9 @@ const port = 3000;
 const postsRouter = require('./routers/posts');
 const serverError = require('./middlewares/serverError');
 const notFound = require('./middlewares/notFOund');
+const logRequest = require('./middlewares/logRequest');
+
+app.use(logRequest);
 
 app.use(express.static('public'));
 
